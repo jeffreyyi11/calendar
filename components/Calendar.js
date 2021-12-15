@@ -1,24 +1,45 @@
 //Calendar Component houses all other related components
 import React, {useEffect, useState} from 'react';
 import CalendarHeader from './CalendarHeader';
+import Days from './Days';
+import styles from '../public/css/styles.module.css';
 
 const Calendar = () => {
     //state to hold month position in relation to current month
     const [monthNav, setMonthNav] = useState(0);
     const [days, setDays] = useState([]);
     const [dateDisplay, setDateDisplay] = useState('');
-    const [dateClicked, setDateClicked] = usetState(false);
-    const [events, setEvents] = useState([]);
+    const [selectedDate, setSelectedDate] = useState('');
+    const [events, setEvents] = useState([
+        {
+            date: '12/21/2021',
+            description: 'test event 1',
+        },
+        {
+            date: '12/21/2021',
+            description: 'test event 2',
+        },
+        {
+            date: '12/31/2021',
+            description: 'test event 3',
+        }
+    ]);
 
     //function to filter events by selected date
     const eventsForDate = (date) => {
-        events.filter(e => e.date === date)
+        return events.filter(e => e.date === '12/21/2021')
     };
     
     //function to add date to event
     const addEvent = (event) => {
         setEvents([...events, event]);
         return events;
+    }
+
+    const selectDate = (e) => {
+        console.log("🚀 ~ file: Calendar.js ~ line 41 ~ selectDate ~ e.target.value", e.target.value)
+        setSelectedDate(e.target.value);
+        console.log(selectedDate);
     }
 
     //useEffect to load day cards for current selected month, will rerun on monthNav change or adding an event
@@ -64,15 +85,16 @@ const Calendar = () => {
             if (i > paddingDays) {
                 daysArr.push({
                     value: i - paddingDays,
-                    event: eventsForDate(dayString),
-                    isCurrentDay: i - paddingDays === day && nav === 0,
-                    date: day,
+                    events: eventsForDate(dayString),
+                    isCurrentDay: i - paddingDays === day && monthNav === 0,
+                    date: dayString,
                     padding: false,
                 })
+                
             } else {
                 daysArr.push({
-                    value: daysInMonth - paddingDays + 1,
-                    event: null,
+                    value: daysInMonth - paddingDays + i,
+                    events: null,
                     isCurrentDay: false,
                     date: '',
                     padding: true,
@@ -83,12 +105,48 @@ const Calendar = () => {
     }, [events, monthNav]);
 
     return (
-        <div id='calendar-container'>
+        <div id='calendar-container' className={styles.container}>
             <CalendarHeader 
                 dateDisplay={dateDisplay}
                 onPrev={() => setMonthNav(monthNav - 1)}
                 onNext={() => setMonthNav(monthNav + 1)}
             />
+            {selectedDate}
+            <div className={styles.days}>
+                <div>Sunday</div>
+                <div>Monday</div>
+                <div>Tuesday</div>
+                <div>Wednesday</div>
+                <div>Thursday</div>
+                <div>Friday</div>
+                <div>Saturday</div>
+            </div>
+            <div className={styles.calendar}>
+                {days.map((d, index) => ( 
+                    <Days
+                        key={index}
+                        day={d}
+                        events={eventsForDate(d.date)}
+                        onClick={() => {
+                            if (!d.padding) {
+                                setSelectedDate(d.date);
+                            }
+                        }}
+                    />
+                ))}
+            </div>
+            <div id='events'>
+                {
+                    selectedDate ?
+                    eventsForDate(selectedDate.date).map((event, i) => {
+                        return (<p key={i}>{event.date} - {event.description}</p>)
+                    })
+                    :
+                    events.map((event, i) => {
+                        return (<p key={i}>{event.date} - {event.description}</p>)
+                    })
+                }
+            </div>
         </div>
     )
 }
