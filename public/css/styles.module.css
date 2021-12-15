@@ -1,0 +1,92 @@
+.container {
+    width: 770px;
+    margin: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.monthDisplay {
+    margin-left: 5px;
+    font-size: 2rem;
+}
+
+.monthButtons{
+    width: 95px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navButton {
+    height: 1.5rem;
+    margin: auto;
+}
+
+.days {
+    display: flex;
+    text-align: center;
+}
+.days div {
+    width: 100px;
+    margin: 5px;
+}
+
+.calendar {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.day {
+    width: 100px;
+    padding: 10px;
+    height: 100px;
+    cursor: pointer;
+    box-sizing: border-box;
+    background-color: white;
+    margin: 5px;
+    box-shadow: 0px 0px 3px #CBD4C2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.day:hover {
+    background-color: #e8faed;
+}
+
+.padding {
+    width: 100px;
+    padding: 10px;
+    height: 100px;
+    cursor: pointer;
+    box-sizing: border-box;
+    background-color: lightgrey;
+    margin: 5px;
+    box-shadow: 0px 0px 3px #CBD4C2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.currentDay {
+    background-color:#e8f4fa;
+}
+
+.eventStyles {
+    z-index: 20;
+    padding: 25px;
+    background-color: #e8f4fa;
+    box-shadow: 0px 0px 3px black;
+    border-radius: 5px;
+    width: 350px;
+    top: 100px;
+    left: calc(50% - 175px);
+    position: absolute;
+    font-family: sans-serif;
+}
+
+.hideEventsModal {
+    display: hidden;
+}

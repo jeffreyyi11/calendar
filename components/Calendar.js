@@ -1,5 +1,6 @@
 //Calendar Component houses all other related components
 import React, {useEffect, useState} from 'react';
+import CalendarHeader from './CalendarHeader';
 
 const Calendar = () => {
     //state to hold month position in relation to current month
@@ -83,7 +84,11 @@ const Calendar = () => {
 
     return (
         <div id='calendar-container'>
-            
+            <CalendarHeader 
+                dateDisplay={dateDisplay}
+                onPrev={() => setMonthNav(monthNav - 1)}
+                onNext={() => setMonthNav(monthNav + 1)}
+            />
         </div>
     )
 }
