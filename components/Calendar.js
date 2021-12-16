@@ -22,12 +22,16 @@ const Calendar = () => {
         {
             date: '12/31/2021',
             description: 'test event 3',
+        },
+        {
+            date: '12/05/2021',
+            description: 'test event 4'
         }
     ]);
 
     //function to filter events by selected date
     const eventsForDate = (date) => {
-        return events.filter(e => e.date === '12/21/2021')
+        return events.filter(e => e.date === date);
     };
     
     //function to add date to event
@@ -36,9 +40,8 @@ const Calendar = () => {
         return events;
     }
 
-    const selectDate = (e) => {
-        console.log("🚀 ~ file: Calendar.js ~ line 41 ~ selectDate ~ e.target.value", e.target.value)
-        setSelectedDate(e.target.value);
+    const selectDate = (day) => {
+        setSelectedDate(day.date);
         console.log(selectedDate);
     }
 
@@ -122,12 +125,12 @@ const Calendar = () => {
                 <div>Saturday</div>
             </div>
             <div className={styles.calendar}>
-                {days.map((d, index) => ( 
+                {days.map((d, index) => (
                     <Days
                         key={index}
                         day={d}
                         events={eventsForDate(d.date)}
-                        onClick={() => {
+                        selectDate={() => {
                             if (!d.padding) {
                                 setSelectedDate(d.date);
                             }
@@ -137,13 +140,14 @@ const Calendar = () => {
             </div>
             <div id='events'>
                 {
-                    selectedDate ?
-                    eventsForDate(selectedDate.date).map((event, i) => {
-                        return (<p key={i}>{event.date} - {event.description}</p>)
-                    })
-                    :
-                    events.map((event, i) => {
-                        return (<p key={i}>{event.date} - {event.description}</p>)
+                    // selectedDate ?
+                    // eventsForDate(selectedDate.date).map((event, i) => {
+                    //     return (<p key={i}>{event.date} - {event.description}</p>)
+                    // })
+                    // :
+                    events.sort((a, b) => new Date(a.date) - new Date(b.date))
+                          .map((event, i) => {
+                            return (<p key={i}>{event.date} - {event.description}</p>)
                     })
                 }
             </div>
