@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import CalendarHeader from './CalendarHeader';
 import Days from './Days';
 import styles from '../public/css/styles.module.css';
+import EventModal from './EventModal';
 
 const Calendar = () => {
     //state to hold month position in relation to current month
@@ -131,7 +132,10 @@ const Calendar = () => {
                         day={d}
                         events={eventsForDate(d.date)}
                         selectDate={() => {
-                            if (!d.padding) {
+                            if (selectedDate) {
+                                setSelectedDate('');
+                            }
+                            else if (!d.padding) {
                                 setSelectedDate(d.date);
                             }
                         }}
@@ -150,6 +154,9 @@ const Calendar = () => {
                             return (<p key={i}>{event.date} - {event.description}</p>)
                     })
                 }
+            </div>
+            <div id='event-modal'>
+                {selectedDate && <EventModal addEvent={addEvent} />}
             </div>
         </div>
     )
