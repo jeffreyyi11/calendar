@@ -1,13 +1,16 @@
 import React, {useState} from 'react';
 import styles from '../public/css/styles.module.css';
 
-const EventModal = ({addEvent}) => {
+const EventModal = ({addEvent, closeModal}) => {
     const [date, setDate] = useState('');
     const [description, setDescription] = useState('');
-    const [eventStyles, setEventStyles] = useState(styles.eventStyles);
+    const [eventModal, setEventModal] = useState(styles.eventModalStyles);
+    const [backDrop, setBackDrop] = useState(styles.modalBackDrop);
 
     const close = () => {
-        setEventStyles(styles.hideEventsModal);
+        setEventModal(styles.hideEventsModal);
+        closeModal();
+        setBackDrop('');
     }
 
     const createEvent = () => {
@@ -24,7 +27,7 @@ const EventModal = ({addEvent}) => {
 
     return (
         <div id='event-container'>
-            <div id='newEvent' className={eventStyles}>
+            <div id='newEvent' className={eventModal}>
                 <h3>New Event</h3>
                 <input
                     id='eventDate'
@@ -43,6 +46,7 @@ const EventModal = ({addEvent}) => {
                     <button onClick={close}>Cancel</button>
                 </div>
             </div>
+            <div className={backDrop}></div>
         </div>
     )
 }

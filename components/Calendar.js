@@ -41,9 +41,8 @@ const Calendar = () => {
         return events;
     }
 
-    const selectDate = (day) => {
-        setSelectedDate(day.date);
-        console.log(selectedDate);
+    const onClose = () => {
+        setSelectedDate(null);
     }
 
     //useEffect to load day cards for current selected month, will rerun on monthNav change or adding an event
@@ -131,11 +130,8 @@ const Calendar = () => {
                         key={index}
                         day={d}
                         events={eventsForDate(d.date)}
-                        selectDate={() => {
-                            if (selectedDate) {
-                                setSelectedDate('');
-                            }
-                            else if (!d.padding) {
+                        selectDate={() => {             ///select a day to bring up modal to add event and view events for that day
+                            if (!d.padding) {
                                 setSelectedDate(d.date);
                             }
                         }}
@@ -144,11 +140,6 @@ const Calendar = () => {
             </div>
             <div id='events'>
                 {
-                    // selectedDate ?
-                    // eventsForDate(selectedDate.date).map((event, i) => {
-                    //     return (<p key={i}>{event.date} - {event.description}</p>)
-                    // })
-                    // :
                     events.sort((a, b) => new Date(a.date) - new Date(b.date))
                           .map((event, i) => {
                             return (<p key={i}>{event.date} - {event.description}</p>)
@@ -156,7 +147,7 @@ const Calendar = () => {
                 }
             </div>
             <div id='event-modal'>
-                {selectedDate && <EventModal addEvent={addEvent} />}
+                {selectedDate && <EventModal addEvent={addEvent} closeModal={() => setSelectedDate(null)} />}
             </div>
         </div>
     )
