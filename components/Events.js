@@ -5,6 +5,7 @@ const Events = ({events, monthYear}) => {
     const month = monthYear[0] + 1;
     const year = monthYear[1];
 
+    //run on month or year change to filter out events for that month
     useEffect(() => {
         if (month < 10) {
             month = '0' + String(month);
@@ -19,7 +20,6 @@ const Events = ({events, monthYear}) => {
             };
         }
         setEventsThisMonth(filteredEvents);
-        console.log(eventsThisMonth)
     }, [month, year]);
 
     return(

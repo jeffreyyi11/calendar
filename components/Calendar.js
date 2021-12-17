@@ -15,7 +15,7 @@ const Calendar = () => {
     const [monthYear, setMonthYear] = useState([]);
     const [events, setEvents] = useState([
         {
-            date: '12/21/2021',
+            date: '04/10/2022',
             description: 'test event 1',
         },
         {
@@ -38,7 +38,8 @@ const Calendar = () => {
 
     //function to filter events by selected date
     const eventsForDate = (date) => {
-        return events.filter(e => e.date === date);
+        let filteredEvents = events.filter(event => event.date === String(date));
+        return filteredEvents;
     };
     
     //function to add date to event
@@ -64,9 +65,7 @@ const Calendar = () => {
         const day = dt.getDate();
         const month = dt.getMonth();
         const year = dt.getFullYear();
-        console.log(month);
         setMonthYear([month, year]);
-        console.log("🚀 ~ file: Calendar.js ~ line 68 ~ useEffect ~ setMonthYear", monthYear)
 
         //find the first day of the current selected month;
         const firstDayOfMonth = new Date(year, month, 1);
@@ -89,7 +88,13 @@ const Calendar = () => {
 
         //create day component for each day and each padding day in current selected month
         for (let i = 1; i <= paddingDays + daysInMonth; i++) {
-            const dayString = `${month + 1}/${i - paddingDays}/${year}`;
+            let formattedDay;
+            if ((i - paddingDays > 0) && (i - paddingDays < 10)) {
+                formattedDay = '0' + String(`${i - paddingDays}`);
+            } else {
+                formattedDay = i - paddingDays;
+            }
+            const dayString = `${month + 1}/${formattedDay}/${year}`;
             if (i > paddingDays) {
                 daysArr.push({
                     value: i - paddingDays,
@@ -119,7 +124,6 @@ const Calendar = () => {
                 onPrev={() => setMonthNav(monthNav - 1)}
                 onNext={() => setMonthNav(monthNav + 1)}
             />
-            {selectedDate}
             <div className={styles.days}>
                 <div>Sunday</div>
                 <div>Monday</div>
@@ -151,7 +155,9 @@ const Calendar = () => {
             </div>
             <div id='event-modal'>
                 {selectedDate && 
-                <EventModal 
+                <EventModal
+                    events={events}
+                    today={selectedDate}
                     addEvent={addEvent}
                     closeModal={() => setSelectedDate(null)} 
                 />
