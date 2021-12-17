@@ -4,6 +4,7 @@ import CalendarHeader from './CalendarHeader';
 import Days from './Days';
 import styles from '../public/css/styles.module.css';
 import EventModal from './EventModal';
+import Events from './Events';
 
 const Calendar = () => {
     //state to hold month position in relation to current month
@@ -11,13 +12,14 @@ const Calendar = () => {
     const [days, setDays] = useState([]);
     const [dateDisplay, setDateDisplay] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
+    const [monthYear, setMonthYear] = useState([]);
     const [events, setEvents] = useState([
         {
             date: '12/21/2021',
             description: 'test event 1',
         },
         {
-            date: '12/21/2021',
+            date: '01/21/2022',
             description: 'test event 2',
         },
         {
@@ -27,6 +29,10 @@ const Calendar = () => {
         {
             date: '12/05/2021',
             description: 'test event 4'
+        }, 
+        {
+            date: '11/10/2021',
+            description: 'past event'
         }
     ]);
 
@@ -39,10 +45,6 @@ const Calendar = () => {
     const addEvent = (event) => {
         setEvents([...events, event]);
         return events;
-    }
-
-    const onClose = () => {
-        setSelectedDate(null);
     }
 
     //useEffect to load day cards for current selected month, will rerun on monthNav change or adding an event
@@ -62,6 +64,9 @@ const Calendar = () => {
         const day = dt.getDate();
         const month = dt.getMonth();
         const year = dt.getFullYear();
+        console.log(month);
+        setMonthYear([month, year]);
+        console.log("🚀 ~ file: Calendar.js ~ line 68 ~ useEffect ~ setMonthYear", monthYear)
 
         //find the first day of the current selected month;
         const firstDayOfMonth = new Date(year, month, 1);
@@ -139,15 +144,18 @@ const Calendar = () => {
                 ))}
             </div>
             <div id='events'>
-                {
-                    events.sort((a, b) => new Date(a.date) - new Date(b.date))
-                          .map((event, i) => {
-                            return (<p key={i}>{event.date} - {event.description}</p>)
-                    })
-                }
+                <Events 
+                    events={events}
+                    monthYear={monthYear}
+                />
             </div>
             <div id='event-modal'>
-                {selectedDate && <EventModal addEvent={addEvent} closeModal={() => setSelectedDate(null)} />}
+                {selectedDate && 
+                <EventModal 
+                    addEvent={addEvent}
+                    closeModal={() => setSelectedDate(null)} 
+                />
+                }
             </div>
         </div>
     )
