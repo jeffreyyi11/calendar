@@ -11,20 +11,17 @@ const minioClient = new Minio.Client({
     secretKey: minio_secret
 });
 
+
 export default async(req, res) => {
-    let data = req.body;
-    console.log(data);
+    const prefix = req.body.site,
+
     try {
-        minioClient.bucketExists('test', (err, exists) => {
-            if (err) throw err;
-            if (exists) {
-                console.log('bucket exists');
-                return true;
-            }
-        })
+        let objects = minioClient.listObjectsV2('test', prefix,);
+        if (objects) {
+            return objects
+        }
+        return res.status(200).json({message: 'no events found'});
+    } catch (err){
+        throw err;
     }
-    catch (err) {
-        console.log(err);
-        res.json('error');
-    }
-}
+};

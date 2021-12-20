@@ -11,20 +11,6 @@ const minioClient = new Minio.Client({
     secretKey: minio_secret
 });
 
-export default async(req, res) => {
-    let data = req.body;
-    console.log(data);
-    try {
-        minioClient.bucketExists('test', (err, exists) => {
-            if (err) throw err;
-            if (exists) {
-                console.log('bucket exists');
-                return true;
-            }
-        })
-    }
-    catch (err) {
-        console.log(err);
-        res.json('error');
-    }
+export default async() => {
+    
 }
