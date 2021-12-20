@@ -5,7 +5,8 @@ const Events = ({events, monthYear}) => {
     const month = monthYear[0] + 1;
     const year = monthYear[1];
 
-    //run on month or year change to filter out events for that month
+    // run on month or year change to filter out events for that month
+    // reruns on changes to events, month, year
     useEffect(() => {
         if (month < 10) {
             month = '0' + String(month);
@@ -20,7 +21,7 @@ const Events = ({events, monthYear}) => {
             };
         }
         setEventsThisMonth(filteredEvents);
-    }, [month, year]);
+    }, [events, month, year]);
 
     return(
         <div id='events-container'>

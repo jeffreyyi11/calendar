@@ -50,6 +50,8 @@ const Calendar = () => {
 
     //useEffect to load day cards for current selected month, will rerun on monthNav change or adding an event
     useEffect(() => {
+        //Grab all the events from minio bucket and set state
+
         //create array for the day label
         const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         
