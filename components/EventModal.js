@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import styles from '../public/css/styles.module.css';
 
 const EventModal = ({events, today, addEvent, closeModal}) => {
-    const [date, setDate] = useState('');
+    const [date, setDate] = useState(today);
     const [description, setDescription] = useState('');
     const [eventsForToday, setEventsForToday] = useState([]);
     const [eventModal, setEventModal] = useState(styles.eventModalStyles);
@@ -21,7 +21,7 @@ const EventModal = ({events, today, addEvent, closeModal}) => {
             date: date,
             description: description,
         }
-        console.log(event);
+        console.log(events);
         setDate('');
         setDescription('');
         addEvent(event);
@@ -64,8 +64,7 @@ const EventModal = ({events, today, addEvent, closeModal}) => {
                 <input
                     id='eventDate'
                     type='text'
-                    value={today}
-                    onChange={e => setDate(e.target.value)}
+                    defaultValue={date}
                 />
                 <input
                     id='eventDescription'
