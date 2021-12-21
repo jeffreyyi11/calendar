@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
+import newEvent from '../minio_functions/newEvent';
 import styles from '../public/css/styles.module.css';
 
 const EventModal = ({events, today, addEvent, closeModal}) => {
     const [date, setDate] = useState(today);
     const [description, setDescription] = useState('');
+    const [eventName, setEventName] = useState('');
     const [eventsForToday, setEventsForToday] = useState([]);
     const [eventModal, setEventModal] = useState(styles.eventModalStyles);
     const [backDrop, setBackDrop] = useState(styles.modalBackDrop);
@@ -19,13 +21,23 @@ const EventModal = ({events, today, addEvent, closeModal}) => {
     const createEvent = () => {
         const event = {
             date: date,
+            name: eventName,
             description: description,
         }
-        console.log(events);
-        setDate('');
-        setDescription('');
-        addEvent(event);
-        close();
+        console.log(event);
+        try {
+            let created = newEvent(event);
+            if (created) {
+                console.log(created);
+                setDate('');
+                setDescription('');
+                addEvent(event);
+                close();
+            }
+        }
+        catch (err) {
+            throw err;
+        }
     };
     
     //filter events for the day of selected date and format date to mm/dd/yyyy
@@ -65,6 +77,12 @@ const EventModal = ({events, today, addEvent, closeModal}) => {
                     id='eventDate'
                     type='text'
                     defaultValue={date}
+                />
+                <input
+                    id='eventName'
+                    type='text'
+                    placeholder='Name'
+                    onChange={e => setEventName(e.target.value)}
                 />
                 <input
                     id='eventDescription'

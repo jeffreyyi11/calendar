@@ -6,7 +6,6 @@ import styles from '../public/css/styles.module.css';
 import EventModal from './EventModal';
 import Events from './Events';
 import getObjects from '../minio_functions/getObjects';
-const communityName = process.env.NEXT_PUBLIC_COMMUNITY;
 
 const Calendar = () => {
     //state to hold month position in relation to current month
@@ -53,8 +52,9 @@ const Calendar = () => {
     //useEffect to load day cards for current selected month, will rerun on monthNav change or adding an event
     useEffect(() => {
         //Grab all the events from minio bucket and set state
-        let eventsFromMinio = getObjects(communityName);
-        setEvents(eventsFromMinio);
+        // let eventsFromMinio = getObjects();
+        // eventsFromMinio ? setEvents(eventsFromMinio) : '';
+
 
         //create array for the day label
         const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -145,7 +145,7 @@ const Calendar = () => {
                         key={index}
                         day={d}
                         events={eventsForDate(d.date)}
-                        selectDate={() => {             ///select a day to bring up modal to add event and view events for that day
+                        selectDate={() => {  ///select a day to bring up modal to add event and view events for that day
                             if (!d.padding) {
                                 setSelectedDate(d.date);
                             }

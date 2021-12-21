@@ -1,19 +1,14 @@
-import React, {useState} from 'react';
+//grab all objects(events) from bucket for community
 
-export default async (communityName) => {
-    const bucketParams = {
-        bucket: 'Events',
-        site: communityName
-    }
+export default async () => {
+
     try {
-        let response = await fetch('api/minio/checkbucket.js', {
-            method: 'POST',
-            body: bucketParams, //body to include bucket name and community name
-        })
-        let data = response.status === 200 ? await fetch('api/minio/getEvents.js', {
-            method: 'GET'
-        }) : 'No events found';
-        return data;
+        let data = await fetch('/api/minio/getobjects.js')
+        if (data) {
+            return data;
+        } else {
+            return 'No events found';
+        }
     } catch (err) {
         throw err;
     }
