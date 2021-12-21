@@ -14,8 +14,8 @@ const minioClient = new Minio.Client({
 
 
 export default async(req, res) => {
-    let objects = minioClient.listObjectsV2('events', communityName, false, '');
-    console.log(obj);
+    let objects = minioClient.listObjectsV2('events', communityName, true, '');
+    console.log(objects.size);
     objects.on('data', obj => {return obj});
     objects.on('error', err => console.log(err));
 };

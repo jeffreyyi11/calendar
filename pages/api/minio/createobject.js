@@ -13,14 +13,15 @@ const minioClient = new Minio.Client({
 });
 
 export default async(req, res) => {
-    const event = JSON.stringify(req.body);
+    const event = req.body;
+    const data = JSON.stringify(event);
     minioClient.putObject(
-        `events/${communityName}`,
-        event.name,
-        event,
+        'events',
+        `${communityName}/${event.name}`,
+        data,
         (err, etag) => {
             if (err) {return console.log(err)}
             res.status(200).json('event created');
         }
-    );
+    )
 };
