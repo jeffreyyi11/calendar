@@ -5,7 +5,7 @@ import Days from './Days';
 import styles from '../public/css/styles.module.css';
 import EventModal from './EventModal';
 import Events from './Events';
-import getObjects from '../minio_functions/getObjects';
+import getObjects from './minio_functions/getObjects';
 
 const Calendar = () => {
     //state to hold month position in relation to current month
@@ -14,7 +14,28 @@ const Calendar = () => {
     const [dateDisplay, setDateDisplay] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
     const [monthYear, setMonthYear] = useState([]);
-    const [events, setEvents] = useState([]);
+    const [events, setEvents] = useState([
+        {
+            date: '04/10/2022',
+            description: 'test event 1',
+        },
+        {
+            date: '01/21/2022',
+            description: 'test event 2',
+        },
+        {
+            date: '12/31/2021',
+            description: 'test event 3',
+        },
+        {
+            date: '12/05/2021',
+            description: 'test event 4'
+        }, 
+        {
+            date: '11/10/2021',
+            description: 'past event'
+        }
+    ]);
 
     //function to filter events by selected date
     const eventsForDate = (date) => {
@@ -31,8 +52,8 @@ const Calendar = () => {
     //useEffect to load day cards for current selected month, will rerun on monthNav change or adding an event
     useEffect(() => {
         //Grab all the events from minio bucket and set state
-        let eventsFromMinio = getObjects();
-        if (eventsFromMinio) setEvents(eventsFromMinio);
+        // let eventsFromMinio = getObjects();
+        // if (eventsFromMinio) setEvents(eventsFromMinio);
 
         //create array for the day label
         const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
