@@ -5,7 +5,7 @@ import Days from './Days';
 import styles from '../public/css/styles.module.css';
 import EventModal from './EventModal';
 import Events from './Events';
-import getObjects from './minio_functions/getObjects';
+import getObjects from '../minio_functions/getObjects';
 
 const Calendar = () => {
     //state to hold month position in relation to current month

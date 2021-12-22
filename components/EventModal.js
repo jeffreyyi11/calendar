@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import newEvent from './minio_functions/newEvent';
+import newEvent from '../minio_functions/newEvent';
 import styles from '../public/css/styles.module.css';
 
 const EventModal = ({events, today, addEvent, closeModal}) => {
@@ -18,18 +18,15 @@ const EventModal = ({events, today, addEvent, closeModal}) => {
     }
 
     //create a new event
-    const createEvent = async() => {
+    const createEvent = () => {
         const event = {
             date: date,
             name: eventName,
             description: description,
         }
-        console.log(event);
+        let data = JSON.stringify(event);
         try {
-            let created = await fetch('api/minio/createobject', {
-                method: 'POST',
-                event: event
-            });
+            let created = newEvent(data);
             if (created) {
                 console.log(created);
                 setDate('');
