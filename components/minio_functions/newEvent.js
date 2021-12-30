@@ -1,6 +1,5 @@
-//create new object(event) for community
-
-export default async(event) => {
+//create new object(event)
+const newEvent = (event) => {
     const response = fetch('/api/Minio/createobject', {
         method: 'POST',
         body: event
@@ -8,3 +7,4 @@ export default async(event) => {
     return response
 }
 
+export default newEvent;

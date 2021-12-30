@@ -1,24 +1,23 @@
 import React, {useState, useEffect} from 'react';
-import newEvent from '../minio_functions/newEvent';
-import styles from '../public/css/styles.module.css';
+import newEvent from './MinioCalls/newEvent';
 
-const EventModal = ({events, today, addEvent, closeModal}) => {
+const EventModal = ({events, today,closeModal}) => {
     const [date, setDate] = useState(today);
     const [description, setDescription] = useState('');
     const [eventName, setEventName] = useState('');
-    const [eventsForToday, setEventsForToday] = useState([]);
-    const [eventModal, setEventModal] = useState(styles.eventModalStyles);
-    const [backDrop, setBackDrop] = useState(styles.modalBackDrop);
+    const [todayEvents, setTodayEvents] = useState([]);
+    const [eventModal, setEventModal] = useState('eventModalStyles');
+    const [backDrop, setBackDrop] = useState('modalBackDrop');
 
     //function to close event modal and return to normal view
     const close = () => {
-        setEventModal(styles.hideEventsModal);
+        setEventModal('hideEventsModal');
         closeModal();
         setBackDrop('');
     }
 
     //create a new event
-    const createEvent = () => {
+    const createEvent = async() => {
         const event = {
             date: date,
             name: eventName,
@@ -31,7 +30,6 @@ const EventModal = ({events, today, addEvent, closeModal}) => {
                 console.log(created);
                 setDate('');
                 setDescription('');
-                addEvent(event);
                 close();
             }
         }
@@ -47,28 +45,28 @@ const EventModal = ({events, today, addEvent, closeModal}) => {
         if (parseInt(month) < 10) {
             month = '0' + month;
             today = month + restOfToday;
+            setDate(String(today));
         }
         console.log(today);
-        let filteredEvents = [];
+        console.log(events);
         for (let i = 0; i < events.length; i++) {
             let event = events[i];
             if (event['date'] === today) {
-                filteredEvents.push(event);
+                setTodayEvents([...todayEvents, event]);
             }
         }
-        console.log(filteredEvents);
-        setEventsForToday(filteredEvents);
-        console.log(eventsForToday);
-    }, [])
+        console.log(todayEvents);
+    }, [events])
 
     return (
         <div id='event-container'>
             <div id='newEvent' className={eventModal}>
                 {today}
+                <h3>Events</h3>
                 <div id='events'>
                     {
-                        eventsForToday.map((event, i) => {
-                            return (<p key={i}>{event.description}</p>)
+                        todayEvents.map((event, i) => {
+                            return (<li key={i} className='eventDisplay'>{event.name} - {event.description}</li>)
                         })
                     }
                 </div>

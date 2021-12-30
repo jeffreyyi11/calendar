@@ -1,19 +1,13 @@
-import React, {useEffect} from 'react';
-import styles from '../public/css/styles.module.css';
+import React from 'react';
 
 const Days = ({day, events, selectDate}) => {
-    const className = `${day.padding ? styles.padding: styles.day} 
-                       ${day.isCurrentDay ? styles.currentDay : ''}`;
-
-    useEffect(() => {
-        console.log(events);
-    }, []);
+    const className = `${day.padding ? 'padding' : 'day'} ${day.isCurrentDay ? 'currentDay' : ''}`
 
     return (
         <div className={className} onClick={selectDate}>
             {day.value}
-            {day.events && day.events.map((event, i) => {
-                <p key={i}>{event.description}</p>
+            {events.map((event, i) => {
+                <p key={i} className='eventName'>{event.name}</p>
             })}
         </div>
     );

@@ -1,22 +1,30 @@
-//grab all objects(events) from bucket for community
+import getSingleEvent from "./getSingleEvent";
 
-export default async () => {
-    //fetch events for community
-    let data;
-    fetch('/api/Minio/getobjects')
-        .then(response => data = response.json())
-        .then(data => {
-            let filteredData = [];
-            for (let i = 0; i < data.length; i++) {
-                data[i]['name'] = data[i]['name'].split('/')[1]
-                let date = data[i]['lastModified'].slice(0,10).split('-');
-                let year = date[0];
-                let month = date[1];
-                let day = date[2];
-                data[i]['date'] = `${month}/${day}/${year}`;
-                filteredData.push(data[i]);
-            };
-            return filteredData;
+//get all events for community
+const getEvents = async (month) => {
+  //use current passed month to filter out events for the month
+    let selectedMonth = String(month + 1);
+  //fetch events for community and filter by month
+    let events = await fetch("/api/Minio/getobjects")
+        .then((data) => {
+            data = data.json();
+            return data;
         })
-        .catch(error => console.log(error));
-}
+        .catch((error) => console.log(error));
+    console.log(events);
+    let filteredData = [];
+    for (let i = 0; i < events.length; i++) {
+        //Use name from file to get all community events
+        let name = events[i]['name'].split('/')[1];
+        let event = await getSingleEvent(name);
+        //Get the date from event and compare against month param
+        //if matching push to array
+        let eventMonth = event['date'].split('/')[0];
+        if (eventMonth === selectedMonth) {
+            filteredData.push(event);
+        }
+    }
+    return filteredData;
+};
+
+export default getEvents;

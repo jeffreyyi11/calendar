@@ -12,11 +12,12 @@ const minioClient = new Minio.Client({
     secretKey: minio_secret
 });
 
-export default async(req, res) => {
+const createobject = async(req, res) => {
     const event = JSON.parse(req.body);
     console.log("🚀 ~ file: createobject.js ~ line 17 ~ async ~ event", event)
     const name = `${event['name']}`;
     const data = JSON.stringify(event);
+    console.log(data);
     try {
         minioClient.putObject(
             'events',
@@ -30,4 +31,6 @@ export default async(req, res) => {
     } catch (err) {
         if (err) throw err;
     }
-};
+}
+
+export default createobject;

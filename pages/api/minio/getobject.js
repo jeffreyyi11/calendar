@@ -13,13 +13,12 @@ const minioClient = new Minio.Client({
 });
 
 export default async(req, res) => {
-  let objects = [];
-  let stream = minioClient.listObjectsV2("events", communityName, true, "");
-  stream.on("data", (object) => {
-    objects.push(object)
-    });
-  stream.on("error", (error) => console.log(error));
-  stream.on("end", () => {
-    return res.status(200).json(objects);
-  });
-};
+    const name = req.body;
+    minioClient.getObject('events', `${communityName}/${name}`, (err, stream) => {
+        if(err) {return err};
+        stream.on('data', (chunk) => {
+            return res.status(200).json(chunk);
+        });
+        stream.on('error', (error) => console.log(error));
+    })
+}
