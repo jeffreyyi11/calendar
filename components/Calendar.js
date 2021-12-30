@@ -44,10 +44,8 @@ const Calendar = () => {
 
     //set month based on currently selected monnth
     if (monthNav !== 0) {
-      dt.setMonth(new Date().getMonth() + monthNav);
-    } else 
-    console.log(monthNav);
-    console.log(dt.getMonth());
+      dt.setMonth(new Date().getMonth() + monthNav, 1);
+    }
 
     //getting the day, month, and year from current selected month
     const day = dt.getDate();
